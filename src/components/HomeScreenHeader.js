@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 
@@ -6,7 +7,7 @@ const HomeScreenHeader = ({ navigation, route, options }) => {
     <View
       style={{
         height: 60,
-        backgroundColor: '#2563EB',
+        backgroundColor: '#51035481',
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 15,

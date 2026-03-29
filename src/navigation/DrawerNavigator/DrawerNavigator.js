@@ -3,6 +3,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import TabNavigator from '../TabNavigator/TabNavigator';
 import HomeScreenHeader from '../../components/HomeScreenHeader';
 import CustomDrawerContent from '../../components/CustomDrawerContent';
+import Explore from '../../screen/Explore';
 
 const Drawer = createDrawerNavigator();
 
@@ -22,6 +23,15 @@ const DrawerNavigator = () => {
           title: 'Home',
         }}
       />
+
+      <Drawer.Screen
+        name="Explore"
+        component={Explore}
+        options={{
+          title: 'Explore',
+        }}
+      />
+
     </Drawer.Navigator>
   );
 };
