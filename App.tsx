@@ -12,13 +12,17 @@ import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 import RootNavigator from './src/navigation/RootNavigator';
+import { UserContextProvider } from './src/context/AuthContext';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={'yellow'}/>
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={'yellow'}
+      />
       <AppContent />
     </SafeAreaProvider>
   );
@@ -33,7 +37,9 @@ function AppContent() {
         templateFileName="App.tsx"
         safeAreaInsets={safeAreaInsets}
       /> */}
-      <RootNavigator />
+      <UserContextProvider>
+        <RootNavigator />
+      </UserContextProvider>
     </View>
   );
 }

@@ -10,9 +10,9 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      drawerContent={props => <CustomDrawerContent {...props} />}
       screenOptions={{
-        header: (props) => <HomeScreenHeader {...props} />,
+        header: props => <HomeScreenHeader {...props} />,
         headerShown: true, // ensure header is visible
       }}
     >
@@ -31,7 +31,6 @@ const DrawerNavigator = () => {
           title: 'Explore',
         }}
       />
-
     </Drawer.Navigator>
   );
 };
