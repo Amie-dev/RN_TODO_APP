@@ -1,13 +1,17 @@
 import { View, Text } from 'react-native';
-import React from 'react';
+import React, { use, useState } from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
 import DrawerNavigator from './DrawerNavigator/DrawerNavigator';
+import AuthStack from './AuthStack/AuthStack';
+import { useUserContext } from '../context/AuthContext';
 
 const RootNavigator = () => {
+  const { isAuthenticated} = useUserContext();
+  console.log(isAuthenticated)
   return (
     <NavigationContainer>
-      <DrawerNavigator />
+      {isAuthenticated ? <DrawerNavigator /> : <AuthStack />}
     </NavigationContainer>
   );
 };
