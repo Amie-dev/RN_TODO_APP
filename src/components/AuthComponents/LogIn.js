@@ -8,43 +8,59 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { useUserContext } from '../../context/AuthContext';
-import {useForm,Controller} from "react-hook-form"
+import { useForm, Controller } from 'react-hook-form';
 import { Auth } from '../../api/AuthAPI';
 
 const LogIn = ({ login, setLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const { user, setUser,setToken } = useUserContext();
+  const { user, setUser, setToken } = useUserContext();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid, isSubmitSuccessful },
+  } = useForm({
+    defaultValues: {
+      username: '',
+      password: '',
+    },
+    mode: 'onChange',
+  });
 
   // ✅ Validation
-  const isDisabled = !username.trim() || !password.trim();
+  // const isDisabled = !username.trim() || !password.trim();
 
   // ✅ Submit
-  const handleSubmit = async () => {
-    if (isDisabled) {
-      Alert.alert('Error', 'Please fill all fields');
-      return;
-    }
-try {
-  const data={
-      username,
-      password,
-    }
+  const onSubmit = async data => {
+    // if (isDisabled) {
+    //   Alert.alert('Error', 'Please fill all fields');
+    //   return;
+    // }
+    try {
+      // const data = {
+      //   username,
+      //   password,
+      // };
+      console.log(data);
 
-    const res=await Auth.login(data)
-    console.log(res)
-    console.log("data",res.data)
-    setUser(JSON.stringify(res.data.user));
-    setToken(JSON.stringify(res.data.accessToken))
-    console.log("accessToken",res.data.accessToken)
-    
-     Alert.alert(res.success?"Success":"Fail", res.message);
-} catch (error) {
-  console.log("Error on login",error)
-}
+      const res = await Auth.login(data);
+      console.log(res);
+      console.log('data', res.data);
+      setUser(JSON.stringify(res.data.user));
+      setToken(JSON.stringify(res.data.accessToken));
+      console.log('accessToken', res.data.accessToken);
 
-   
+      Alert.alert(res.success ? 'Success' : 'Fail', res.message);
+    } catch (error) {
+      console.log(
+        'Error on login ',
+        error?.response?.data?.message || error.message,
+      );
+      // console.log(error?.response?.data?.message)
+      Alert.alert('Error', error?.response?.data?.message || error.message);
+    }
   };
 
   return (
@@ -54,31 +70,77 @@ try {
       <Text style={styles.subtitle}>Login to continue</Text>
 
       {/* 🔥 Inputs */}
-      <TextInput
+
+      <Controller
+        name="username"
+        control={control}
+        rules={{ required: 'UserName is Required' }}
+        render={({ field: { value, onChange } }) => (
+          <TextInput
+            placeholder="Username / Email"
+            placeholderTextColor="#94a3b8"
+            style={styles.input}
+            value={value}
+            onChangeText={onChange}
+          />
+        )}
+      />
+
+      {errors.username && (
+        <Text style={styles.error}>{errors.username.message}</Text>
+      )}
+
+      {/* <TextInput
         placeholder="Username / Email"
         placeholderTextColor="#94a3b8"
         style={styles.input}
         value={username}
         onChangeText={setUsername}
-      />
+      /> */}
 
-      <TextInput
+      {/* 🔥 Password */}
+
+      <Controller
+        name="password"
+        control={control}
+        rules={{
+          required: 'password is required',
+          minLength: {
+            value: 4,
+            message: 'Password must be more then 4 Char',
+          },
+        }}
+        render={({ field: { value, onChange } }) => (
+          <TextInput
+            placeholder="Password"
+            placeholderTextColor="#94a3b8"
+            style={styles.input}
+            secureTextEntry
+            value={value}
+            onChangeText={onChange}
+          />
+        )}
+      />
+      {errors.password && (
+        <Text style={styles.error}>{errors.password.message}</Text>
+      )}
+      {/* <TextInput
         placeholder="Password"
         placeholderTextColor="#94a3b8"
         style={styles.input}
         secureTextEntry
         value={password}
         onChangeText={setPassword}
-      />
+      /> */}
 
       {/* 🔥 Button */}
       <TouchableOpacity
         style={[
           styles.button,
-          { backgroundColor: isDisabled ? 'gray' : '#1e40af' },
+          { backgroundColor: !isValid ? 'gray' : '#1e40af' },
         ]}
-        onPress={handleSubmit}
-        disabled={isDisabled}
+        onPress={handleSubmit(onSubmit)}
+        disabled={!isValid}
       >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
@@ -148,5 +210,10 @@ const styles = StyleSheet.create({
   link: {
     color: '#3b82f6',
     fontWeight: 'bold',
+  },
+  error: {
+    color: 'red',
+    marginBottom: 10,
+    fontSize: 12,
   },
 });
