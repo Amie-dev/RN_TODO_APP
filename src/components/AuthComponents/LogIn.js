@@ -80,7 +80,7 @@ const LogIn = ({ login, setLogin }) => {
             placeholder="Username / Email"
             placeholderTextColor="#94a3b8"
             style={styles.input}
-            value={value}
+            value={value.trim().toLocaleLowerCase()}
             onChangeText={onChange}
           />
         )}
