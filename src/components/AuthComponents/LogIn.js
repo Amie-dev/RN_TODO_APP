@@ -12,8 +12,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { Auth } from '../../api/AuthAPI';
 
 const LogIn = ({ login, setLogin }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  // const [username, setUsername] = useState('');
+  // const [password, setPassword] = useState('');
 
   const { user, setUser, setToken } = useUserContext();
 

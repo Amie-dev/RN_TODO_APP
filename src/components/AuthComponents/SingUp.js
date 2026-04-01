@@ -12,10 +12,10 @@ import { Auth } from '../../api/AuthAPI';
 import { Controller, useForm } from 'react-hook-form';
 
 const SingUp = ({ login, setLogin }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  // const [name, setName] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [username, setUsername] = useState('');
+  // const [password, setPassword] = useState('');
 
   const { user, setUser } = useUserContext();
 
