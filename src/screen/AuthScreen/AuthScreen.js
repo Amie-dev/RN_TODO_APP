@@ -6,7 +6,7 @@ import SingUp from '../../components/AuthComponents/SingUp';
 
 const AuthScreen = () => {
   const [step, setStep] = useState(0);   // 0 = GetStart, 1 = Auth
-  const [login, setLogin] = useState(false); // false = Signup, true = Login
+  const [loginScreen, setLoginScreen] = useState(false); // false = Signup, true = Login
 
   return (
     <>
@@ -17,10 +17,10 @@ const AuthScreen = () => {
 
       {/* 🔥 Step 1 → Auth Screen */}
       {step >0 && (
-       ! login ? (
-          <LogIn login={login} setLogin={setLogin} />
+       ! loginScreen ? (
+          <LogIn loginScreen={loginScreen} setLoginScreen={setLoginScreen} />
         ) : (
-          <SingUp login={login} setLogin={setLogin} />
+          <SingUp loginScreen={loginScreen} setLoginScreen={setLoginScreen} />
         )
       )}
     </>

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   StyleSheet,
   Text,
@@ -10,12 +11,13 @@ import React, { useState } from 'react';
 import { useUserContext } from '../../context/AuthContext';
 import { useForm, Controller } from 'react-hook-form';
 import { Auth } from '../../api/AuthAPI';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LogIn = ({ login, setLogin }) => {
+const LogIn = ({ loginScreen, setLoginScreen }) => {
   // const [username, setUsername] = useState('');
   // const [password, setPassword] = useState('');
 
-  const { user, setUser, setToken } = useUserContext();
+  const { setUser, setToken, login } = useUserContext();
 
   const {
     control,
@@ -48,9 +50,20 @@ const LogIn = ({ login, setLogin }) => {
       const res = await Auth.login(data);
       console.log(res);
       console.log('data', res.data);
-      setUser(JSON.stringify(res.data.user));
-      setToken(JSON.stringify(res.data.accessToken));
-      console.log('accessToken', res.data.accessToken);
+      const user = res.data.user;
+      const token = res.data.accessToken;
+
+      // try {
+      //   AsyncStorage.setItem("user",JSON.stringify(res.data.user))
+      //   AsyncStorage.setItem('token',JSON.stringify(res.data.accessToken))
+      // } catch (error) {
+      //   console.log('Error in Async Storage',error)
+      // }
+      // setUser(JSON.stringify(res.data.user));
+      // setToken(JSON.stringify(res.data.accessToken));
+      // console.log('accessToken', res.data.accessToken);
+
+      login(user, token);
 
       Alert.alert(res.success ? 'Success' : 'Fail', res.message);
     } catch (error) {
@@ -59,6 +72,15 @@ const LogIn = ({ login, setLogin }) => {
         error?.response?.data?.message || error.message,
       );
       // console.log(error?.response?.data?.message)
+      const statusCode = error?.response?.data?.statusCode || error.statusCode;
+      if (statusCode === 404) {
+        try {
+          await AsyncStorage.removeItem('user');
+          await AsyncStorage.removeItem('token');
+        } catch (error) {
+          console.log('Error on login from AsyncStorage.removeItem ', error);
+        }
+      }
       Alert.alert('Error', error?.response?.data?.message || error.message);
     }
   };
@@ -81,7 +103,7 @@ const LogIn = ({ login, setLogin }) => {
             placeholderTextColor="#94a3b8"
             style={styles.input}
             value={value.trim().toLocaleLowerCase()}
-            onChangeText={onChange}
+            onChangeText={text => onChange(text.toLowerCase())}
           />
         )}
       />
@@ -148,7 +170,7 @@ const LogIn = ({ login, setLogin }) => {
       {/* 🔥 Switch to Signup */}
       <Text style={styles.footerText}>
         Don’t have an account?{' '}
-        <Text style={styles.link} onPress={() => setLogin(!login)}>
+        <Text style={styles.link} onPress={() => setLoginScreen(!loginScreen)}>
           Sign Up
         </Text>
       </Text>

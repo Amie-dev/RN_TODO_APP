@@ -11,7 +11,7 @@ import { useUserContext } from '../../context/AuthContext';
 import { Auth } from '../../api/AuthAPI';
 import { Controller, useForm } from 'react-hook-form';
 
-const SingUp = ({ login, setLogin }) => {
+const SingUp = ({ loginScreen, setLoginScreen }) => {
   // const [name, setName] = useState('');
   // const [email, setEmail] = useState('');
   // const [username, setUsername] = useState('');
@@ -52,7 +52,7 @@ const SingUp = ({ login, setLogin }) => {
       const res = await Auth.register(data);
       //statusCode: 200, data: {…}, message: 'Users registered successfully and verification email has been sent on your email.', success: true
       console.log('register Data', res.data);
-      setLogin(!login);
+      setLoginScreen(!loginScreen);
       Alert.alert('Success', 'Account Created ✅');
     } catch (error) {
       // Alert.alert('Error',error)
@@ -128,7 +128,7 @@ const SingUp = ({ login, setLogin }) => {
             placeholderTextColor="#94a3b8"
             style={styles.input}
             value={value}
-            onChangeText={onChange}
+            onChangeText={(text) => onChange(text.toLowerCase())}
           />
         )}
       />
@@ -159,7 +159,7 @@ const SingUp = ({ login, setLogin }) => {
             placeholderTextColor="#94a3b8"
             style={styles.input}
             secureTextEntry
-            value={value.trim().toLocaleLowerCase()}
+            value={value}
             onChangeText={onChange}
           />
         )}
@@ -191,7 +191,7 @@ const SingUp = ({ login, setLogin }) => {
       {/* Switch */}
       <Text style={styles.footerText}>
         Already have an account?{' '}
-        <Text style={styles.link} onPress={() => setLogin(!login)}>
+        <Text style={styles.link} onPress={() => setLoginScreen(!loginScreen)}>
           Login
         </Text>
       </Text>
