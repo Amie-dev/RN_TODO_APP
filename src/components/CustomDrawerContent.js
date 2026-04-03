@@ -4,7 +4,7 @@ import { useUserContext } from '../context/AuthContext';
 
 const CustomDrawerContent = props => {
   const { state, navigation } = props;
-  const { user } = useUserContext();
+  const { user,logout } = useUserContext();
 
   // ✅ Safe active route finder
   const getActiveRouteName = route => {
@@ -16,9 +16,9 @@ const CustomDrawerContent = props => {
   const activeScreen = getActiveRouteName(state.routes[state.index]);
 
   // ✅ Safe user handling
-  const parseUser = JSON.parse(user);
-  const avatar = parseUser?.avatar?.url;
-  const username = parseUser?.username?.toUpperCase() || 'GUEST';
+  // const parseUser = JSON.parse(user);
+  const avatar = user?.avatar?.url;
+  const username = user?.username?.toUpperCase() || 'GUEST';
 
   return (
     <View style={styles.container}>
@@ -59,6 +59,16 @@ const CustomDrawerContent = props => {
         onPress={() => navigation.navigate('Explore')}
       >
         <Text style={styles.screenTabText}>Explore</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[
+          styles.logout,
+          activeScreen === 'Explore' && styles.activeTab,
+        ]}
+        onPress={logout}
+      >
+        <Text style={styles.screenTabText}>LogOut</Text>
       </TouchableOpacity>
     </View>
   );
@@ -113,4 +123,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
+  logout:{
+    backgroundColor: 'red',
+    marginTop: 20,
+    borderRadius: 10,
+  }
 });

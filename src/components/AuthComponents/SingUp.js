@@ -128,7 +128,7 @@ const SingUp = ({ loginScreen, setLoginScreen }) => {
             placeholderTextColor="#94a3b8"
             style={styles.input}
             value={value}
-            onChangeText={(text) => onChange(text.toLowerCase())}
+            onChangeText={(text) => onChange(text.trim().toLowerCase())}
           />
         )}
       />
