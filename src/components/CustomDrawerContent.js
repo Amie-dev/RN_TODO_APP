@@ -4,7 +4,7 @@ import { useUserContext } from '../context/AuthContext';
 
 const CustomDrawerContent = props => {
   const { state, navigation } = props;
-  const { user,logout } = useUserContext();
+  const { user, logout } = useUserContext();
 
   // ✅ Safe active route finder
   const getActiveRouteName = route => {
@@ -62,10 +62,7 @@ const CustomDrawerContent = props => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={[
-          styles.logout,
-          activeScreen === 'Explore' && styles.activeTab,
-        ]}
+        style={[styles.logout, activeScreen === 'Explore' && styles.activeTab]}
         onPress={logout}
       >
         <Text style={styles.screenTabText}>LogOut</Text>
@@ -123,9 +120,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
-  logout:{
+  logout: {
     backgroundColor: 'red',
     marginTop: 20,
     borderRadius: 10,
-  }
+  },
 });
