@@ -3,6 +3,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../../screen/HomeScreen';
 import TodoDetails from '../../screen/TodoDetails';
+import HomeScreenHeader from '../../components/HomeScreenHeader';
 
 const Stack = createStackNavigator();
 
@@ -13,16 +14,17 @@ const HomeStack = () => {
         name="HomeScreen"
         component={HomeScreen}
         options={{
-          headerShown: false,
+          header: props => <HomeScreenHeader {...props} />,
+          headerShown: true,
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="TodoDetails"
         component={TodoDetails}
         options={{
           headerShown: false,
         }}
-      />
+      /> */}
     </Stack.Navigator>
   );
 };

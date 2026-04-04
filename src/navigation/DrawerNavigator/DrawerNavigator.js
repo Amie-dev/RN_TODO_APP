@@ -12,8 +12,8 @@ const DrawerNavigator = () => {
     <Drawer.Navigator
       drawerContent={props => <CustomDrawerContent {...props} />}
       screenOptions={{
-        header: props => <HomeScreenHeader {...props} />,
-        headerShown: true, // ensure header is visible
+        // header: props => <HomeScreenHeader {...props} />,
+        headerShown: false, // ensure header is visible
       }}
     >
       <Drawer.Screen
@@ -21,6 +21,8 @@ const DrawerNavigator = () => {
         component={TabNavigator}
         options={{
           title: 'Home',
+          // header: props => <HomeScreenHeader {...props} />,
+          // headerShown: true,
         }}
       />
 
@@ -29,6 +31,8 @@ const DrawerNavigator = () => {
         component={Explore}
         options={{
           title: 'Explore',
+          header: props => <HomeScreenHeader {...props} />,
+          headerShown: true,
         }}
       />
     </Drawer.Navigator>
